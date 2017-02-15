@@ -270,11 +270,13 @@ to 5. What we need to do is console.log(i) so that it logs like so:
  Fix the code below to log the desired output.
  */
 
-function timeOutCounter() {
-  for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-    	console.log(i)
-	}, i * 1000)
-  }
-}
-timeOutCounter();
+ function timeOutCounter() {
+   for (var i = 0; i <= 5; i++) {
+     var j=0;
+     setTimeout(function(i) {
+     	console.log(j)
+     	j++
+ 	}, i * 1000)
+   }
+ }
+ timeOutCounter();
