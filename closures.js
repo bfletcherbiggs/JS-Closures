@@ -15,11 +15,11 @@ closure over the name variable. Invoke outer saving the return value into
 another variable called 'inner'. */
 
 // Code Here
-
+var inner = outer();
 //Once you do that, invoke inner.
 
 //Code Here
-
+inner();
 
 
 
@@ -48,7 +48,8 @@ in your console. */
 
   //Code Here
 
-
+var callJake = callFriend("Jake");
+callJake('435-555-9248')
 
 
 
@@ -64,15 +65,21 @@ in your console. */
 /* Write a function called makeCounter that makes the following code work
 properly. */
 
-//Code Here
+
+function makeCounter(){
+  var count = 1;
+  return function counter(){
+    return count++;
+    // console.log("count = " + count)
+  }
+}
 
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
-
+  var count = makeCounter();
+  count(); // 1
+  count(); // 2
+  count(); // 3
+  count(); // 4
 
 
 
@@ -91,17 +98,23 @@ properly. */
 up/down counter. The first function is called inc, this function is responsible
 for incrementing the value once. The second function is called dec, this
 function is responsible for decrementing the value by one. You will need to use
-the module pattern to achieve this. 
-Information on the module pattern available here: 
+the module pattern to achieve this.
+Information on the module pattern available here:
 http://stackoverflow.com/questions/17776940/javascript-module-pattern-with-example?answertab=votes#tab-top
 */
 
 function counterFactory(value) {
-
-  // Code here.
-
-
+  var counter = value;
   return {
+       inc:function() {
+           counter++;
+           return counter;
+       },
+       dec:function() {
+           counter--;
+           return counter;
+       }
+
   }
 }
 
@@ -134,14 +147,16 @@ function motivation(firstname, lastname) {
   var welcomeText = 'You\'re doing awesome, keep it up ';
 
   // code message function here.
-
+  function message(){
+    return welcomeText + firstname + ' ' + lastname+".";
+  }
 
   //Uncommment this to return the value of your invoked message function
-  //return message();
+  return message();
 
 }
 
-motivation('Billy', 'Bob'); // 'You're doing awesome keep it up Billy Bob.
+motivation('Billy', 'Bob');// 'You're doing awesome keep it up Billy Bob.
 
 
 
@@ -175,11 +190,13 @@ var module = (function() {
   // Anything that is being returned is made public and can be invoked from
   // outside our lexical scope
   return {
-    // Code here.
+    publicMethod : function(){
+      return privateMethod();
+    }
   };
 
 })();
-
+module.publicMethod();
 
 
 /******************************************************************************\
@@ -196,11 +213,28 @@ var allUsers = ["Tom", "Dick", "Harry", "Anne", "Quinton", "Katie", "Mary"];
 
 function findPotentialFriends(existingFriends) {
 
+  return function (friend) {
+      return existingFriends.indexOf(friend)===-1 ? true:false;
+
+  // return {
+  //   isNotAFriend: function (friend) {
+  //     return existingFriends.indexOf(friend)===-1 ? true:false;
+  //   },
+  //   potentialSecondFriends: function (friend){
+  //     return secondLevelFriends.filter (ele =>
+  //     ele === friend)
+  //   },
+  //   potentialFriends: function (allFriends){
+  //     return allFriends.filter (ele =>
+  //     ele === friend)
+  //   }
+  }
+
 }
 
 var isNotAFriend = findPotentialFriends( friends );
-// isNotAFriend(allUsers[0]); // false
-// isNotAFriend(secondLevelFriends[2]); // true
+isNotAFriend(allUsers[0]); // false
+isNotAFriend(secondLevelFriends[2]); // true
 
 
 /******************************************************************************\
@@ -210,8 +244,10 @@ var isNotAFriend = findPotentialFriends( friends );
 method, find all potential second level friends as well as potential friends
 from allUsers. */
 
-var potentialSecondLevelFriends = "?";
-var allPotentialFriends = "?";
+var potentialSecondLevelFriends = secondLevelFriends.filter(ele =>
+isNotAFriend(ele));
+var allPotentialFriends = allUsers.filter(ele =>
+isNotAFriend(ele));
 
 
 /******************************************************************************\
